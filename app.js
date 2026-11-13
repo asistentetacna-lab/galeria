@@ -641,13 +641,35 @@ async function loadOverlays(buf) {
 const Voice = (() => {
   const btn = $('#btn-voice'), rate = $('#voice-rate'), auto = $('#voice-auto'), info = $('#voice-info');
   const audio = new Audio(), reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let ctx = null, overlays = new Map(), cur = null, raf = 0, activeId = null, playing = false, advancing = false, utter = null;
+  let ctx = null, overlays = new Map(), cur = null, raf = 0, activeId = null, playing = false, advancing = false, utter = null, speechRun = 0;
 
   const key = h => { for (const k of overlays.keys()) if (h && (h === k || h.endsWith('/' + k) || k.endsWith('/' + h))) return k; };
   const norm = h => key(h) || h;
   // epub.js crea su gestor de vistas de forma asíncrona: antes de la primera página estas llamadas pueden fallar.
   const here = () => { try { return ctx?.rendition.currentLocation()?.start?.href; } catch { return undefined; } };
   const contents = () => { try { return ctx?.rendition.getContents()[0]; } catch { return undefined; } };
+
+  function pickBestGoogleVoice(lang) {
+    if (!('speechSynthesis' in window)) return null;
+    const voices = speechSynthesis.getVoices();
+    if (!voices.length) return null;
+
+    const targetLang = (lang || 'es').toLowerCase().slice(0, 2);
+    const esVoices = voices.filter(voice => voice.lang.toLowerCase().startsWith(targetLang));
+    const googleVoice = esVoices.find(voice =>
+      /google/i.test(voice.name) && /(pe|419|us|es|mx)/i.test(`${voice.lang} ${voice.name}`))
+      || esVoices.find(voice => /google/i.test(voice.name))
+      || esVoices.find(voice => /natural|neural|online/i.test(voice.name));
+
+    if (googleVoice) return googleVoice;
+
+    const targetRegion = (lang || '').toLowerCase().replace('_', '-').split('-')[1];
+    return (targetRegion && esVoices.find(voice =>
+      voice.lang.toLowerCase().replace('_', '-').split('-')[1] === targetRegion))
+      || esVoices.find(voice => /^es[-_](PE|419|MX|US|ES)/i.test(voice.lang))
+      || esVoices[0]
+      || null;
+  }
 
   function refresh() {
     if (!ctx) { info.textContent = ''; return; }
@@ -687,15 +709,53 @@ const Voice = (() => {
   }
   function speak() {
     const c = contents(); if (!c || !('speechSynthesis' in window)) return;
-    const lang = ctx.book.packaging?.metadata?.language || 'es';
-    const u = utter = new SpeechSynthesisUtterance(c.document.body.innerText.replace(/\s+/g, ' ').trim());
-    u.lang = lang; u.rate = +rate.value;
-    u.voice = speechSynthesis.getVoices().find(v => v.lang.toLowerCase().startsWith(lang.slice(0, 2).toLowerCase())) || null;
-    u.onend = u.onerror = () => { if (utter === u) setPlaying(false); };
-    speechSynthesis.cancel(); speechSynthesis.speak(u);
-    cur = { href: norm(here()) }; setPlaying(true);
+    const rawText = c.document.body.innerText.replace(/\s+/g, ' ').trim();
+    if (!rawText) return;
+
+    speechSynthesis.cancel();
+    const sentences = rawText.match(/[^.!?…]+(?:[.!?…]+|$)/g)?.map(sentence => sentence.trim()).filter(Boolean) || [rawText];
+    const lang = ctx.book.packaging?.metadata?.language || 'es-PE';
+    const selectedVoice = pickBestGoogleVoice(lang);
+    const baseRate = +rate.value || 1;
+    const run = ++speechRun;
+    let index = 0;
+
+    function speakNextSentence() {
+      if (run !== speechRun) return;
+      if (index >= sentences.length) {
+        utter = null;
+        setPlaying(false);
+        return;
+      }
+
+      const sentence = sentences[index];
+      if (!sentence) { index++; speakNextSentence(); return; }
+
+      const u = utter = new SpeechSynthesisUtterance(sentence);
+      u.lang = lang;
+      if (selectedVoice) u.voice = selectedVoice;
+      u.rate = Math.max(0.75, Math.min(1.1, baseRate * 0.9));
+      u.pitch = 1.05;
+      u.onend = () => {
+        if (run !== speechRun) return;
+        index++;
+        window.setTimeout(speakNextSentence, 250);
+      };
+      u.onerror = event => {
+        if (run !== speechRun) return;
+        if (event.error === 'canceled' || event.error === 'interrupted') return;
+        console.warn('Error en frase TTS:', event);
+        index++;
+        window.setTimeout(speakNextSentence, 250);
+      };
+      speechSynthesis.speak(u);
+    }
+
+    cur = { href: norm(here()) };
+    setPlaying(true);
+    speakNextSentence();
   }
-  function pause() { audio.pause(); utter = null; speechSynthesis.cancel(); cancelAnimationFrame(raf); setPlaying(false); }
+  function pause() { speechRun++; audio.pause(); utter = null; speechSynthesis.cancel(); cancelAnimationFrame(raf); setPlaying(false); }
   function stop() { pause(); mark(null); cur = null; }
 
   audio.onended = async () => {
@@ -713,10 +773,13 @@ const Voice = (() => {
   btn.onclick = () => {
     if (playing) return pause();
     const k = key(here());
-    (k ? playSection(k) : Promise.resolve(speak())).catch(e => { console.error(e); info.textContent = 'No se pudo reproducir la narración.'; setPlaying(false); });
+    Promise.resolve().then(() => k ? playSection(k) : speak())
+      .catch(e => { console.error(e); info.textContent = 'No se pudo reproducir la narración.'; setPlaying(false); });
   };
   rate.onchange = () => { audio.playbackRate = +rate.value; ctx?.save(rate.value, auto.checked); };
   auto.onchange = () => ctx?.save(rate.value, auto.checked);
+
+  if ('speechSynthesis' in window) speechSynthesis.addEventListener('voiceschanged', refresh);
 
   return {
     refresh,
