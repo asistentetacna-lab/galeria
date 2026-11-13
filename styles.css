@@ -15,7 +15,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.6 var(--sans);-w
 .skip{position:absolute;left:.5rem;top:-4rem;background:var(--gold);color:var(--gold-ink);padding:.6rem 1rem;z-index:99;border-radius:6px}
 .skip:focus{top:.5rem}
 
-.top{background:var(--green);color:#f4f7ee;padding:clamp(1.5rem,5vw,3.5rem) clamp(1rem,5vw,4rem);border-bottom:6px solid var(--gold)}
+.top{background:var(--green);color:#f4f7ee;padding:clamp(1.25rem,3vw,2.25rem) clamp(1rem,5vw,4rem);border-bottom:6px solid var(--gold)}
 .top h1{font:800 clamp(2rem,6vw,3.6rem)/1.05 var(--serif);margin:0 0 .5rem;letter-spacing:-.01em}
 .top p{margin:0;max-width:46ch;font-size:1.1rem;color:#dbe5d3}
 main{padding:clamp(1rem,4vw,3rem) clamp(1rem,5vw,4rem);max-width:1400px;margin:auto}
@@ -139,15 +139,18 @@ select.icon{padding:0 .5rem;background:var(--r-bg)}
 .btn-sm{min-height:44px;padding:.4rem .85rem;font-size:.95rem}
 
 /* Cabecera de la plataforma */
-.top{display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
+.top{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:clamp(1rem,3vw,2.5rem)}
 .brand-name{color:inherit;text-decoration:none;font:800 clamp(1.6rem,4vw,2.7rem)/1.1 var(--serif)}
 .brand-name strong{color:var(--gold)}
 .brand p{margin:.5rem 0 0;color:#dbe5d3;font-size:1.05rem}
-.user-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:.6rem}
-.header-luna{width:clamp(84px,9vw,132px);height:clamp(90px,10vw,140px);align-self:flex-end;object-fit:contain;object-position:bottom}
+.user-bar{display:grid;grid-template-columns:max-content max-content clamp(132px,12vw,172px);grid-template-areas:"plans login luna" "status status luna";align-items:center;justify-content:end;gap:.65rem 1rem}
+.user-bar .btn{min-height:56px;padding:.75rem 1.2rem;font-size:1.075rem;line-height:1.2}
+#btn-plans{grid-area:plans}
+#btn-login{grid-area:login;white-space:nowrap}
+.header-luna{grid-area:luna;width:clamp(132px,12vw,172px);height:clamp(145px,14vw,184px);justify-self:center;align-self:center;object-fit:contain;object-position:bottom;filter:drop-shadow(0 7px 10px #0003)}
 .btn-top{background:transparent;color:#f4f7ee;border-color:#f4f7ee}
 .btn-top:hover{background:#f4f7ee;color:var(--green)}
-.user-status{flex-basis:100%;text-align:right;font-size:.9rem}
+.user-status{grid-area:status;min-height:0;text-align:right;font-size:.95rem}
 .cat-head h1{font:600 clamp(1.8rem,4vw,2.7rem)/1.2 var(--serif);margin:0}
 .catalog-intro{margin:.5rem 0;color:var(--muted)}
 .card-actions{align-items:stretch;justify-content:flex-start}
@@ -223,10 +226,15 @@ select.icon{padding:0 .5rem;background:var(--r-bg)}
 .dojo-instructions img{display:block;width:100%;height:auto}
 .dojo-instructions figcaption{padding:.75rem 1rem;color:var(--muted);font-size:.95rem;text-align:center}
 @media (max-width:720px){.pasos-grid{grid-template-columns:1fr}.dojo-box{align-items:stretch;flex-direction:column}.btn-dojo{width:100%}}
+@media (min-width:721px) and (max-width:1100px){
+  .top{grid-template-columns:1fr;gap:1.1rem}
+  .user-bar{width:100%;justify-content:start}
+}
 @media (max-width:720px){
-  .top{align-items:flex-start;flex-direction:column}
-  .user-bar{justify-content:flex-start}
-  .header-luna{width:84px;height:92px;align-self:center}
+  .top{grid-template-columns:1fr;align-items:flex-start;gap:1.25rem}
+  .user-bar{width:100%;grid-template-columns:minmax(0,1fr) clamp(96px,24vw,132px);grid-template-areas:"plans luna" "login luna" "status status";justify-content:stretch;gap:.65rem .85rem}
+  .user-bar .btn{width:100%;justify-content:center;white-space:normal}
+  .header-luna{width:100%;height:clamp(112px,28vw,152px)}
   .user-status{text-align:left}
   .filters-section{align-items:stretch}
   .filter-chips{width:100%}
