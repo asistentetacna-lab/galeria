@@ -677,6 +677,46 @@ const Voice = (() => {
       : ('speechSynthesis' in window ? 'Esta página se leerá con la voz del dispositivo.' : 'Sin narración disponible.');
   }
   function setPlaying(v) { playing = v; btn.textContent = v ? '⏸ Pausar' : '▶ Escuchar'; }
+  function cleanRepeatedHeadings(text) {
+    return text.replace(/\b(Estación\s+\d+)\s+\1\b/gi, '$1')
+      .replace(/\b(Nuestra ruta de hoy)\s+\1\b/gi, '$1');
+  }
+  function splitSentences(text) {
+    return text.match(/[^.!?…]+(?:[.!?…]+|$)/g)?.map(sentence => sentence.trim()).filter(Boolean) || [];
+  }
+  function speechSegments(body) {
+    const vocabLists = [...body.querySelectorAll('.vocab')].map((list, index) => {
+      const cards = [...list.children].filter(card => card.matches('div')).map(card => ({
+        term: card.querySelector('dt')?.innerText.trim(),
+        definitions: [...card.querySelectorAll('dd:not(.vimg)')].map(definition => definition.innerText.trim()).filter(Boolean),
+      })).filter(card => card.term || card.definitions.length);
+      const marker = `__TTS_VOCAB_${index}__`;
+      list.replaceWith(body.ownerDocument.createTextNode(marker));
+      return { marker, cards };
+    });
+    body.querySelectorAll('address, article, aside, blockquote, br, dd, div, dl, dt, figure, footer, h1, h2, h3, h4, header, li, main, nav, ol, p, section, table, ul')
+      .forEach(element => {
+        element.before(body.ownerDocument.createTextNode(' '));
+        element.after(body.ownerDocument.createTextNode(' '));
+      });
+    const text = cleanRepeatedHeadings(body.textContent.replace(/\s+/g, ' ').trim());
+    const segments = [];
+    let cursor = 0;
+
+    for (const { marker, cards } of vocabLists) {
+      const markerIndex = text.indexOf(marker, cursor);
+      if (markerIndex < 0) continue;
+      segments.push(...splitSentences(text.slice(cursor, markerIndex)).map(sentence => ({ text: sentence, delay: 300 })));
+      for (const card of cards) {
+        const sentence = [card.term && `${card.term}.`, ...card.definitions].filter(Boolean).join(' ');
+        if (sentence) segments.push({ text: sentence, delay: 500, vocabulary: true });
+      }
+      cursor = markerIndex + marker.length;
+    }
+
+    segments.push(...splitSentences(text.slice(cursor)).map(sentence => ({ text: sentence, delay: 300 })));
+    return segments;
+  }
 
   function follow(el, c) {
     if (ctx.flow() === 'paginated') {
@@ -709,11 +749,12 @@ const Voice = (() => {
   }
   function speak() {
     const c = contents(); if (!c || !('speechSynthesis' in window)) return;
-    const rawText = c.document.body.innerText.replace(/\s+/g, ' ').trim();
-    if (!rawText) return;
+    const body = c.document.body.cloneNode(true);
+    body.querySelectorAll('[aria-hidden="true"]').forEach(element => element.remove());
+    const segments = speechSegments(body);
+    if (!segments.length) return;
 
     speechSynthesis.cancel();
-    const sentences = rawText.match(/[^.!?…]+(?:[.!?…]+|$)/g)?.map(sentence => sentence.trim()).filter(Boolean) || [rawText];
     const lang = ctx.book.packaging?.metadata?.language || 'es-PE';
     const selectedVoice = pickBestGoogleVoice(lang);
     const baseRate = +rate.value || 1;
@@ -722,31 +763,31 @@ const Voice = (() => {
 
     function speakNextSentence() {
       if (run !== speechRun) return;
-      if (index >= sentences.length) {
+      if (index >= segments.length) {
         utter = null;
         setPlaying(false);
         return;
       }
 
-      const sentence = sentences[index];
-      if (!sentence) { index++; speakNextSentence(); return; }
+      const segment = segments[index];
+      if (!segment.text) { index++; speakNextSentence(); return; }
 
-      const u = utter = new SpeechSynthesisUtterance(sentence);
+      const u = utter = new SpeechSynthesisUtterance(segment.text);
       u.lang = lang;
       if (selectedVoice) u.voice = selectedVoice;
-      u.rate = Math.max(0.75, Math.min(1.1, baseRate * 0.9));
+      u.rate = segment.vocabulary ? 0.85 : Math.max(0.75, Math.min(1.1, baseRate * 0.9));
       u.pitch = 1.05;
       u.onend = () => {
         if (run !== speechRun) return;
         index++;
-        window.setTimeout(speakNextSentence, 250);
+        window.setTimeout(speakNextSentence, segment.delay);
       };
       u.onerror = event => {
         if (run !== speechRun) return;
         if (event.error === 'canceled' || event.error === 'interrupted') return;
         console.warn('Error en frase TTS:', event);
         index++;
-        window.setTimeout(speakNextSentence, 250);
+        window.setTimeout(speakNextSentence, segment.delay);
       };
       speechSynthesis.speak(u);
     }
@@ -856,6 +897,14 @@ const Reader = (() => {
     let st = c.document.getElementById('rt-style');
     if (!st) { st = c.document.createElement('style'); st.id = 'rt-style'; c.document.head.append(st); }
     st.textContent = HL_CSS + FIT_CSS;   // los colores los pone el tema nativo, aquí sólo resaltado y maquetación
+    const stationHeading = [...c.document.querySelectorAll('h1')].find(heading => /^Estación\s+\d+$/i.test(heading.textContent.trim()));
+    if (stationHeading) {
+      c.document.querySelectorAll('.station-label').forEach(label => {
+        if (label.textContent.trim().toLowerCase() === stationHeading.textContent.trim().toLowerCase()) {
+          label.setAttribute('aria-hidden', 'true');
+        }
+      });
+    }
     if (!c.document.documentElement.dataset.readerGuards) {
       c.document.documentElement.dataset.readerGuards = 'true';
       c.document.addEventListener('contextmenu', event => event.preventDefault());
