@@ -1,0 +1,233 @@
+{
+  "books": [
+    {
+      "id": "piedras-del-sol",
+      "title": "Las piedras del sol y el bastón de Darío",
+      "author": "Psicólogo José Granda Cortez",
+      "tag": "Lectura Fácil · Cultura andina",
+      "category": "tacna",
+      "grade": "sin-especificar",
+      "gradeLabel": "Sin grado especificado",
+      "isNew": false,
+      "src": "ebooks/Las_piedras_del_sol_y_el_bastón_de_Darío.epub",
+      "music": {
+        "title": "Bajo el sol de Miculla",
+        "src": "musica/Bajo_el_sol_de_Miculla.mp3"
+      },
+      "video": {
+        "title": "Video: Las piedras del sol y el bastón de Darío",
+        "embedUrl": "https://www.youtube.com/embed/UMiz0yCwOfg"
+      }
+    },
+    {
+      "id": "papita-pachamama",
+      "title": "La papita de la Pachamama",
+      "author": "Psicólogo José Granda Cortez",
+      "tag": "Lectura Fácil · Cultura andina",
+      "category": "tacna",
+      "grade": "sin-especificar",
+      "gradeLabel": "Sin grado especificado",
+      "isNew": false,
+      "src": "ebooks/La_papita_de_la_Pachamama.epub",
+      "music": {
+        "title": "Corazón de tierra",
+        "src": "musica/Corazón_de_tierra.mp3"
+      },
+      "video": {
+        "title": "Video: La papita de la Pachamama",
+        "embedUrl": "https://www.youtube.com/embed/Kh4MFkQ5Gd0"
+      }
+    },
+    {
+      "id": "queso-fresco",
+      "title": "El queso fresco bajo el volcán Yucamani",
+      "author": "Psicólogo José Granda Cortez",
+      "tag": "Lectura Fácil · Cultura andina",
+      "category": "tacna",
+      "grade": "sin-especificar",
+      "gradeLabel": "Sin grado especificado",
+      "isNew": false,
+      "src": "ebooks/El_queso_fresco_bajo_el_volcán_Yucamani.epub",
+      "music": {
+        "title": "El cántaro de Luz",
+        "src": "musica/El_cántaro_de_Luz.mp3"
+      },
+      "video": {
+        "title": "Video: El queso fresco bajo el volcán Yucamani",
+        "embedUrl": "https://www.youtube.com/embed/cBEkvovAsXo"
+      }
+    },
+    {
+      "id": "tejido-abuela",
+      "title": "El tejido de la abuela Yanira",
+      "author": "Psicólogo José Granda Cortez",
+      "tag": "Lectura Fácil · Cultura andina",
+      "category": "tacna",
+      "grade": "sin-especificar",
+      "gradeLabel": "Sin grado especificado",
+      "isNew": false,
+      "src": "ebooks/El_tejido_de_la_abuela_Yanira.epub",
+      "music": {
+        "title": "El latido del aguayo",
+        "src": "musica/El_latido_del_aguayo.mp3"
+      },
+      "video": {
+        "title": "Video: El tejido de la abuela Yanira",
+        "embedUrl": "https://www.youtube.com/embed/rs0JwcUW1Sg"
+      }
+    },
+    {
+      "id": "fruta-dulce-tablero",
+      "title": "La fruta dulce y el tablero de Mateo",
+      "author": "Psicólogo José Granda Cortez",
+      "tag": "Lectura Fácil · Cultura andina",
+      "category": "tacna",
+      "grade": "sin-especificar",
+      "gradeLabel": "Sin grado especificado",
+      "isNew": false,
+      "src": "ebooks/La_fruta_dulce_y_el_tablero_de_Mateo.epub",
+      "music": {
+        "title": "El sol en el Mercado Grau",
+        "src": "musica/El_sol_en_el_Mercado_Grau.mp3"
+      },
+      "video": {
+        "title": "Video: La fruta dulce y el tablero de Mateo",
+        "embedUrl": "https://www.youtube.com/embed/0B_VQrs97o8"
+      }
+    },
+    {
+      "id": "tarkeada-tarata",
+      "title": "La tarkeada en Tarata",
+      "author": "Psicólogo José Granda Cortez",
+      "tag": "Lectura Fácil · Cultura andina",
+      "category": "tacna",
+      "grade": "sin-especificar",
+      "gradeLabel": "Sin grado especificado",
+      "isNew": false,
+      "src": "ebooks/La_tarkeada_en_Tarata.epub",
+      "music": {
+        "title": "El tambor de lana roja",
+        "src": "musica/El_tambor_de_lana_roja.mp3"
+      },
+      "video": {
+        "title": "Video: La tarkeada en Tarata",
+        "embedUrl": "https://www.youtube.com/embed/FBUFXtU4shI"
+      }
+    },
+    {
+      "id": "secreto-totora",
+      "title": "El secreto de la totora",
+      "author": "Psicólogo José Granda Cortez",
+      "tag": "Lectura Fácil · Cultura andina",
+      "category": "tacna",
+      "grade": "sin-especificar",
+      "gradeLabel": "Sin grado especificado",
+      "isNew": false,
+      "src": "ebooks/El_secreto_de_la_totora.epub",
+      "music": {
+        "title": "Jilata en el lago de oro",
+        "src": "musica/Jilata_en_el_lago_de_oro.mp3"
+      },
+      "video": {
+        "title": "Video: El secreto de la totora",
+        "embedUrl": "https://www.youtube.com/embed/I24SXZJ4PFs"
+      }
+    },
+    {
+      "id": "vicuna-killa",
+      "title": "La vicuña Killa y el cóndor",
+      "author": "Psicólogo José Granda Cortez",
+      "tag": "Lectura Fácil · Cultura andina",
+      "category": "tacna",
+      "grade": "sin-especificar",
+      "gradeLabel": "Sin grado especificado",
+      "isNew": false,
+      "src": "ebooks/La_vicuña_Killa_y_el_condor.epub",
+      "cover": "portadas/portada_killa.jpg",
+      "music": {
+        "title": "Killa la pequeña vicuña",
+        "src": "musica/Killa_la_pequeña_vicuña_musica.mp3"
+      },
+      "video": {
+        "title": "Video: La vicuña Killa y el cóndor",
+        "embedUrl": "https://www.youtube.com/embed/fkebChG_ER4"
+      }
+    },
+    {
+      "id": "marraqueta-tibia",
+      "title": "La marraqueta tibia y la rampa de Ana",
+      "author": "Psicólogo José Granda Cortez",
+      "tag": "Lectura Fácil · Cultura andina",
+      "category": "tacna",
+      "grade": "sin-especificar",
+      "gradeLabel": "Sin grado especificado",
+      "isNew": false,
+      "src": "ebooks/La_marraqueta_tibia_y_la_rampa_de_Ana.epub",
+      "music": {
+        "title": "La amistad de mil colores",
+        "src": "musica/La_amistad_de_mil_colores.mp3"
+      },
+      "video": {
+        "title": "Video: La marraqueta tibia y la rampa de Ana",
+        "embedUrl": "https://www.youtube.com/embed/34qO_bL266Y"
+      }
+    },
+    {
+      "id": "vendimia-pocollay",
+      "title": "La vendimia y las orejeras de Gabriel",
+      "author": "Psicólogo José Granda Cortez",
+      "tag": "Lectura Fácil · Cultura andina",
+      "category": "tacna",
+      "grade": "sin-especificar",
+      "gradeLabel": "Sin grado especificado",
+      "isNew": false,
+      "src": "ebooks/La_vendimia_y_las_orejeras_de_Gabriel.epub",
+      "music": {
+        "title": "La vendimia en Pocollay",
+        "src": "musica/La_vendimia_en_Pocollay.mp3"
+      },
+      "video": {
+        "title": "Video: La vendimia y las orejeras de Gabriel",
+        "embedUrl": "https://www.youtube.com/embed/thc-XUthGyY"
+      }
+    },
+    {
+      "id": "ritmo-desfile",
+      "title": "El ritmo del desfile y la ayuda de Valeria",
+      "author": "Psicólogo José Granda Cortez",
+      "tag": "Lectura Fácil · Cultura andina",
+      "category": "tacna",
+      "grade": "sin-especificar",
+      "gradeLabel": "Sin grado especificado",
+      "isNew": false,
+      "src": "ebooks/El_ritmo_del_desfile_y_la_ayuda_de_Valeria.epub",
+      "music": {
+        "title": "Marchamos con el corazón",
+        "src": "musica/Marchamos_con_el_corazón.mp3"
+      },
+      "video": {
+        "title": "Video: El ritmo del desfile y la ayuda de Valeria",
+        "embedUrl": "https://www.youtube.com/embed/KonfLPPfr4E"
+      }
+    },
+    {
+      "id": "bandera-roja-blanca",
+      "title": "La bandera roja y blanca en el Paseo Cívico",
+      "author": "Psicólogo José Granda Cortez",
+      "tag": "Lectura Fácil · Cultura andina",
+      "category": "tacna",
+      "grade": "sin-especificar",
+      "gradeLabel": "Sin grado especificado",
+      "isNew": false,
+      "src": "ebooks/La_bandera_roja_y_blanca_en_el_Paseo_Cívico.epub",
+      "music": {
+        "title": "Rojo y blanco bajo el sol",
+        "src": "musica/Rojo_y_blanco_bajo_el_sol.mp3"
+      },
+      "video": {
+        "title": "Video: La bandera roja y blanca en el Paseo Cívico",
+        "embedUrl": "https://www.youtube.com/embed/Gzbwu_hjmtc"
+      }
+    }
+  ]
+}

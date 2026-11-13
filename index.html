@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Biblioteca Digital Anthophila</title>
+  <meta name="description" content="Cuentos infantiles interactivos para leer y escuchar en línea.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#tab-libros">Saltar al catálogo</a>
+
+  <header class="top">
+    <div class="brand">
+      <a class="brand-name" href="#" aria-label="Biblioteca Digital Anthophila, inicio">Biblioteca Digital <strong>Anthophila</strong></a>
+      <p>Cuentos para leer, escuchar e imaginar.</p>
+    </div>
+    <nav class="user-bar" aria-label="Cuenta y suscripción">
+      <button id="btn-plans" class="btn btn-main">Planes y precios</button>
+      <button id="btn-login" class="btn btn-top">🔑 Ingresar clave / Suscripción</button>
+      <img class="header-luna" src="portadas/luna.png" alt="Tutora Luna">
+      <span id="user-status" class="user-status" aria-live="polite"></span>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="carousel-container" role="region" aria-roledescription="carrusel" aria-labelledby="carousel-title">
+      <div class="carousel-heading">
+        <h1 id="carousel-title">Novedades y Próximos Lanzamientos</h1>
+        <div class="carousel-controls" role="group" aria-label="Controles del carrusel">
+          <button id="carousel-prev" class="btn-ctrl" type="button" aria-label="Mostrar anuncio anterior">‹</button>
+          <button id="carousel-toggle" class="btn-ctrl carousel-toggle" type="button" aria-label="Pausar rotación automática" aria-pressed="false">Pausar</button>
+          <button id="carousel-next" class="btn-ctrl" type="button" aria-label="Mostrar anuncio siguiente">›</button>
+        </div>
+      </div>
+      <div id="carousel-slides" class="carousel-slides" aria-live="polite" aria-atomic="true">
+        <article class="carousel-slide" role="group" aria-roledescription="diapositiva" aria-label="1 de 3">
+          <div class="slide-copy">
+            <span class="tag-nuevo">¡Recién Agregado!</span>
+            <h2>La vicuña Killa y el cóndor</h2>
+            <p>Descubre esta historia andina sobre Killa y su encuentro con el cóndor.</p>
+            <a class="slide-link" href="#tab-libros" data-open-tab="tab-libros">Explorar la biblioteca de libros</a>
+          </div>
+          <img class="slide-thumbnail" src="portadas/portada_killa.jpg" alt="Portada del cuento La vicuña Killa y el cóndor">
+        </article>
+        <article class="carousel-slide" role="group" aria-roledescription="diapositiva" aria-label="2 de 3" hidden>
+          <div class="slide-copy">
+            <span class="tag-proximo">Próximo Lanzamiento · Diciembre 2026</span>
+            <h2>El Misterio del Cañón del Colca</h2>
+            <p>Muy pronto, una nueva aventura te llevará a descubrir los secretos del Cañón del Colca.</p>
+          </div>
+          <div class="slide-thumbnail slide-art" aria-hidden="true"><span>Una nueva aventura<br>te espera</span></div>
+        </article>
+        <article class="carousel-slide" role="group" aria-roledescription="diapositiva" aria-label="3 de 3" hidden>
+          <div class="slide-copy">
+            <span class="tag-nuevo">Convocatoria abierta · ClassDojo</span>
+            <h2>¡Tu cuento puede estar aquí!</h2>
+            <p>Crea tu cuento con el acompañamiento de la tutora Luna. Ella te guiará para imaginar, escribir y compartir tu propia historia.</p>
+            <button class="slide-link" type="button" data-open-tab="tab-crear">Descubre cómo participar</button>
+          </div>
+          <div class="slide-thumbnail slide-art slide-art-crear" aria-hidden="true"><span>✍️<br>Tu imaginación<br>es el comienzo</span></div>
+        </article>
+      </div>
+      <div class="carousel-dots" role="group" aria-label="Elegir anuncio">
+        <button class="dot is-active" type="button" aria-label="Mostrar anuncio 1: La vicuña Killa y el cóndor" aria-current="true"></button>
+        <button class="dot" type="button" aria-label="Mostrar anuncio 2: El Misterio del Cañón del Colca" aria-current="false"></button>
+        <button class="dot" type="button" aria-label="Mostrar anuncio 3: Tu cuento puede estar aquí" aria-current="false"></button>
+      </div>
+      <p class="sr" id="carousel-status" role="status" aria-live="polite"></p>
+    </section>
+    <nav class="media-tabs" role="tablist" aria-label="Bibliotecas">
+      <button id="tab-btn-libros" class="tab-btn" type="button" role="tab" aria-selected="true" aria-controls="tab-libros" tabindex="0">📚 Biblioteca de Libros</button>
+      <button id="tab-btn-musica" class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="tab-musica" tabindex="-1">🎵 Biblioteca de Música</button>
+      <button id="tab-btn-videos" class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="tab-videos" tabindex="-1">🎬 Biblioteca de Videos</button>
+      <button id="tab-btn-crear" class="tab-btn" type="button" role="tab" data-tab="tab-crear" aria-selected="false" aria-controls="tab-crear" tabindex="-1">✍️ Crea tu propio libro</button>
+    </nav>
+    <section id="tab-libros" role="tabpanel" aria-labelledby="tab-btn-libros">
+      <section aria-labelledby="t-cat">
+        <div class="cat-head">
+          <div>
+            <h1 id="t-cat">Historias para compartir</h1>
+            <p class="catalog-intro">Explora cuentos infantiles accesibles para leer y escuchar en línea.</p>
+            <span id="count" class="count"></span>
+          </div>
+        </div>
+        <div class="filters-section">
+          <div class="filter-chips" role="toolbar" aria-label="Filtrar por novedades">
+            <button id="filter-all" class="filter-chip active" type="button" aria-label="Mostrar todos los libros" aria-pressed="true" data-filter="all">Todos</button>
+            <button id="filter-new" class="filter-chip" type="button" aria-label="Mostrar solo libros nuevos" aria-pressed="false" data-filter="new">✨ Nuevos libros</button>
+          </div>
+          <div class="filters" role="search" hidden>
+            <label class="sr" for="search">Buscar libros por título, autor, grado o contenido</label>
+            <input type="search" id="search" placeholder="Buscar cuentos..." autocomplete="off" enterkeyhint="search">
+            <label class="sr" for="filter-grade">Filtrar por grado escolar</label>
+            <select id="filter-grade" aria-label="Filtrar por grado escolar">
+              <option value="">Todos los grados</option>
+              <option value="inicial">Inicial</option>
+              <option value="1-2-primaria">1.º y 2.º Primaria</option>
+              <option value="3-primaria">3.º Primaria</option>
+              <option value="4-primaria">4.º Primaria</option>
+              <option value="5-primaria">5.º Primaria</option>
+              <option value="6-primaria">6.º Primaria</option>
+              <option value="secundaria">Secundaria</option>
+              <option value="sin-especificar">Sin grado especificado</option>
+            </select>
+            <label class="sr" for="filter-category">Filtrar por categoría</label>
+            <select id="filter-category" aria-label="Filtrar por categoría">
+              <option value="">Todas las categorías</option>
+              <option value="tacna">Tacna</option>
+              <option value="puno">Puno</option>
+              <option value="cusco">Cusco</option>
+              <option value="arequipa">Arequipa</option>
+              <option value="moquegua">Moquegua</option>
+              <option value="selva">Selva</option>
+              <option value="cristianos">Cristianos</option>
+              <option value="variados">Variados</option>
+            </select>
+          </div>
+        </div>
+        <p id="filter-status" class="sr" role="status" aria-live="polite"></p>
+        <ul id="catalogo" class="grid" aria-label="Catálogo de libros"></ul>
+        <p id="empty" class="empty" role="status" aria-live="polite" hidden>No hay cuentos que coincidan con los filtros seleccionados.</p>
+        <p id="catalog-status" class="status" role="status" aria-live="polite"></p>
+      </section>
+    </section>
+    <section id="tab-musica" role="tabpanel" aria-labelledby="tab-btn-musica" hidden>
+      <h1>Biblioteca de Música</h1>
+      <div id="grid-musica" class="grid-media" aria-label="Música de los cuentos"></div>
+    </section>
+    <section id="tab-videos" role="tabpanel" aria-labelledby="tab-btn-videos" hidden>
+      <h1>Biblioteca de Videos</h1>
+      <div id="grid-videos" class="grid-media" aria-label="Videos de los cuentos"></div>
+    </section>
+    <section id="tab-crear" class="media-section" role="tabpanel" aria-labelledby="tab-btn-crear" hidden>
+      <header class="crear-header">
+        <p class="crear-eyebrow">Tu imaginación, tus palabras</p>
+        <h1>¡Conviértete en autor o autora!</h1>
+        <p>Inventa una historia, ponle tu voz y compártela con tu clase. ¡Estamos deseando leerte y escucharte!</p>
+      </header>
+      <div class="pasos-grid" aria-label="Pasos para crear y compartir tu cuento">
+        <article class="paso-card">
+          <span class="paso-num" aria-hidden="true">1</span>
+          <h2>Escribe tu cuento</h2>
+          <p>Imagina tus personajes y aventuras. Escribe tu historia y ponle un título.</p>
+        </article>
+        <article class="paso-card">
+          <span class="paso-num" aria-hidden="true">2</span>
+          <h2>Graba tu voz</h2>
+          <p>Lee tu cuento en voz alta y graba el audio para compartirlo con los demás.</p>
+        </article>
+        <article class="paso-card">
+          <span class="paso-num" aria-hidden="true">3</span>
+          <h2>Envíalo por ClassDojo</h2>
+          <p>Entrega el texto y la grabación desde tu portafolio de ClassDojo.</p>
+        </article>
+      </div>
+      <aside class="dojo-box" aria-labelledby="dojo-title">
+        <div>
+          <h2 id="dojo-title">¡Tu historia merece ser compartida!</h2>
+          <p>Abre tu portafolio de ClassDojo y envía tu cuento junto con el audio de tu lectura.</p>
+        </div>
+        <a class="btn-dojo" href="https://www.classdojo.com/" target="_blank" rel="noopener noreferrer">Ir a ClassDojo <span aria-hidden="true">↗</span></a>
+      </aside>
+      <figure class="dojo-instructions">
+        <img src="assets/instrucciones-classdojo.png" alt="Hoja de ClassDojo para estudiantes con un código QR e instrucciones ilustradas para iniciar sesión, entrar como alumno y escanear el código.">
+        <figcaption>Escanea el código QR con la aplicación de ClassDojo para entrar a la clase.</figcaption>
+      </figure>
+    </section>
+  </main>
+
+  <dialog id="modal-auth" class="modal-auth access-dialog" aria-labelledby="access-title">
+    <form method="dialog" class="dialog-close-form">
+      <button class="dialog-x" aria-label="Cerrar ventana">✕</button>
+    </form>
+    <h2 id="access-title">Acceso a la Biblioteca Digital Anthophila</h2>
+    <p id="access-message">Ingresa tu código de licencia para activar el acceso completo.</p>
+    <div id="access-plan" class="plan-card">
+      <strong>Acceso completo · S/ 15.00</strong>
+      <p>Realiza el pago por Yape o Plin y solicita tu código de acceso por WhatsApp.</p>
+      <p><strong>Yape / Plin:</strong> 922 768 805<br><strong>Titular:</strong> José M. Granda Cortez</p>
+      <a class="btn btn-whatsapp" href="https://wa.me/51922768805?text=Hola%2C%20acabo%20de%20yapear%20para%20la%20suscripci%C3%B3n%20de%20los%20cuentos.%20Adjunto%20mi%20comprobante." target="_blank" rel="noopener noreferrer">Enviar comprobante por WhatsApp</a>
+    </div>
+    <form id="activation-form" class="activation-form">
+      <label for="activation-code">Código de licencia recibido</label>
+      <input id="activation-code" type="password" autocomplete="one-time-code" aria-describedby="access-status" required>
+      <button class="btn btn-main" type="submit">Activar Acceso</button>
+      <p id="access-status" class="status" role="alert" aria-live="assertive"></p>
+    </form>
+    <p class="demo-disclaimer">La activación y los códigos incluidos son demostrativos. En una web estática cualquiera puede inspeccionar los códigos y activar el acceso; no se validan pagos ni se protegen los EPUB.</p>
+  </dialog>
+
+  <dialog id="paywall-dialog" class="access-dialog paywall-dialog" aria-labelledby="paywall-title">
+    <form method="dialog" class="dialog-close-form">
+      <button class="dialog-x" aria-label="Cerrar ventana">✕</button>
+    </form>
+    <h2 id="paywall-title">¡Te está gustando la historia!</h2>
+    <p>Suscríbete para continuar leyendo y escuchar el cuento completo con sus actividades.</p>
+    <p class="demo-label">La muestra gratuita termina aquí. En esta demostración no se realizan cobros.</p>
+    <div class="dialog-actions">
+      <button id="paywall-plans" class="btn btn-main">Ver planes y activar código</button>
+      <button id="paywall-close" class="btn btn-ghost" type="button">Volver a la muestra</button>
+    </div>
+  </dialog>
+
+  <dialog id="reader" class="reader" data-theme="light" aria-label="Lector de libro">
+    <header class="r-bar">
+      <button id="btn-toc" class="icon" aria-expanded="false" aria-controls="toc">Índice</button>
+      <h2 id="r-title" class="r-title"></h2>
+      <div class="r-tools" role="group" aria-label="Opciones de lectura">
+        <button id="font-dec" class="icon" aria-label="Reducir tamaño de letra">A−</button>
+        <button id="font-inc" class="icon" aria-label="Aumentar tamaño de letra">A+</button>
+        <button id="btn-flow" class="icon">Vista</button>
+        <div class="themes" role="radiogroup" aria-label="Modo de lectura">
+          <button role="radio" aria-checked="true" data-theme="light" class="sw sw-light" aria-label="Fondo claro"></button>
+          <button role="radio" aria-checked="false" data-theme="sepia" class="sw sw-sepia" aria-label="Fondo sepia"></button>
+          <button role="radio" aria-checked="false" data-theme="dark" class="sw sw-dark" aria-label="Modo oscuro de alto contraste"></button>
+        </div>
+        <button id="btn-close" class="icon" aria-label="Cerrar lector">✕</button>
+      </div>
+    </header>
+
+    <div class="r-audio" role="group" aria-label="Narración">
+      <button id="btn-voice" class="icon wide">▶ Escuchar</button>
+      <label>Velocidad
+        <select id="voice-rate" class="icon">
+          <option value="0.75">0,75×</option><option value="1" selected>1×</option>
+          <option value="1.25">1,25×</option><option value="1.5">1,5×</option>
+        </select>
+      </label>
+      <label class="chk"><input type="checkbox" id="voice-auto" checked> Pasar sola a la siguiente escena</label>
+      <span id="voice-info" class="v-info"></span>
+    </div>
+
+    <div class="r-body">
+      <nav id="toc" class="toc" aria-label="Tabla de contenidos" hidden></nav>
+      <button id="prev" class="nav nav-prev" aria-label="Página anterior">‹</button>
+      <div id="viewer" class="viewer"></div>
+      <button id="next" class="nav nav-next" aria-label="Página siguiente">›</button>
+    </div>
+
+    <footer class="r-foot">
+      <div id="progress" class="bar" role="progressbar" aria-label="Progreso de lectura" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <span id="bar-fill"></span>
+      </div>
+      <span id="pct" aria-live="off">0 %</span>
+    </footer>
+    <p id="r-live" class="sr" role="status" aria-live="polite"></p>
+  </dialog>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/epub.js/0.3.93/epub.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
